@@ -1,0 +1,4 @@
+flask~=2.1.3
+flask-cors
+gspread~=5.11.3
+oauth2client

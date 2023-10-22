@@ -1,0 +1,59 @@
+<div class="main-container">
+  <div class="header-container">
+    <app-header></app-header>
+  </div>
+
+  <div class="page-container">
+    <p-card header="Lab 1 Submission" styleClass="custom-card">
+      <form [formGroup]="labForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="asuId">ASU ID</label>
+            <input id="asuId" type="text" pInputText formControlName="asuId" />
+            <p *ngIf="asuId?.touched && asuId?.invalid" class="p-error">ASU ID is required</p>
+          </div>
+
+          <div class="p-field">
+            <label for="contractAddress">Smart Contract Deployment Address</label>
+            <input id="contractAddress" type="text" pInputText formControlName="contractAddress" />
+            <p *ngIf="contractAddress?.touched && contractAddress?.invalid" class="p-error">Smart Contract Deployment Address is required</p>
+          </div>
+
+          <div class="p-field">
+            <p-button type="submit" [disabled]="labForm.invalid" label="Submit"></p-button>
+          </div>
+        </div>
+      </form>
+    </p-card>
+
+    <!-- Results Dialog -->
+    <p-dialog [visible]="displayDialog" [modal]="true" [style]="{width: '50vw'}" [closable]="false">
+      <p-header>
+        Results
+      </p-header>
+      <p-table [value]="results">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ASU ID</th>
+            <th>Score</th>
+            <th>Matches</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>{{row.asuId}}</td>
+            <td>{{row.score}}</td>
+            <td>
+              <div [style.background-color]="row.matchInfo.nameMatch ? 'green' : 'red'">Name</div>
+              <div [style.background-color]="row.matchInfo.symbolMatch ? 'green' : 'red'">Symbol</div>
+              <div [style.background-color]="row.matchInfo.messageMatch ? 'green' : 'red'">Message</div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="displayDialog=false" label="OK"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+</div>
