@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import Web3 from "web3";
-import { Papa } from 'ngx-papaparse';
+import {Papa} from 'ngx-papaparse';
 import {GoogleSheetsService} from "../../services/google-sheets.service";
 import {MessageService} from "primeng/api";
 
@@ -15,6 +15,7 @@ export class Lab1Component {
   private web3: Web3;
   results: any[] = [];
   displayDialog: boolean = false;
+  showSpinner: boolean = false;
 
   constructor(private papa: Papa,
               private sheetsService: GoogleSheetsService,
@@ -69,7 +70,6 @@ export class Lab1Component {
     return result;
   }
 
-
   labForm = new FormGroup({
     asuId: new FormControl('', Validators.required),
     contractAddress: new FormControl('', Validators.required)
@@ -85,9 +85,7 @@ export class Lab1Component {
 
   onSubmit() {
     if (this.labForm.valid) {
-      console.log('ASU ID:', this.asuId?.value);
-      console.log('Smart Contract Deployment Address:', this.contractAddress?.value);
-
+      this.showSpinner = true;
       const contractAddr = this.contractAddress?.value;
       const submittedAsuId = this.asuId?.value;
 
@@ -97,7 +95,7 @@ export class Lab1Component {
             download: true,
             header: true,
             complete: (result) => {
-              const record = result.data.find((row: any) => row['ASU ID'] == submittedAsuId); // Ensure type compatibility using ==
+              const record = result.data.find((row: any) => row['Login ID'] == submittedAsuId); // Ensure type compatibility using ==
 
               if (record) {
                 let score = 0;
@@ -107,12 +105,12 @@ export class Lab1Component {
                   messageMatch: false
                 };
 
-                if (record.Name === blockchainData[0]) {
+                if (record['Token Name'] === blockchainData[0]) {
                   score += 25;
                   matchInfo.nameMatch = true;
                 }
 
-                if (record.Symbol === blockchainData[1]) {
+                if (record['Token Symbol'] === blockchainData[1]) {
                   score += 25;
                   matchInfo.symbolMatch = true;
                 }
@@ -123,35 +121,37 @@ export class Lab1Component {
                 }
 
                 this.results.push({
-                  asuId: record['ASU ID'],
+                  asuId: record['Login ID'],
                   score,
                   matchInfo
                 });
                 this.sheetsService.saveToSheet({
-                  asuId: record['ASU ID'],
+                  asuId: record['Login ID'],
                   score,
                   matchInfo
                 }).subscribe(
                   response => {
-                    this.messageService.add({severity:'success', summary: 'Success', detail: 'Data saved successfully!'}); // Success toast
+                    this.messageService.add({
+                      severity: 'success',
+                      summary: 'Success',
+                      detail: 'Data saved successfully!'
+                    }); // Success toast
                   },
                   error => {
-                    this.messageService.add({severity:'error', summary: 'Error', detail: 'Failed to save data.'}); // Error toast
+                    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to save data.'}); // Error toast
                   }
                 );
 
-
+                this.showSpinner = false;
                 this.displayDialog = true;
 
               } else {
-                console.error('ASU ID not found.');
-                this.messageService.add({severity:'error', summary: 'Error', detail: 'ASU ID not found.'}); // Error toast for contract data fetch failure
+                this.messageService.add({severity: 'error', summary: 'Error', detail: 'ASURITE USER ID not found.'}); // Error toast for contract data fetch failure
               }
             }
           });
         }).catch(error => {
-          console.error(error);
-          this.messageService.add({severity:'error', summary: 'Failed to fetch contract data.', detail: error});
+          this.messageService.add({severity: 'error', summary: 'Failed to fetch contract data.', detail: error});
         });
       }
     }

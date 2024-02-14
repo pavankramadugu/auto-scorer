@@ -4,13 +4,13 @@
   </div>
 
   <div class="page-container">
-    <p-card header="Lab 1 Submission" styleClass="custom-card">
+    <p-card header="Project 1 Submission" styleClass="custom-card">
       <form [formGroup]="labForm" (ngSubmit)="onSubmit()">
         <div class="p-fluid">
           <div class="p-field">
-            <label for="asuId">ASU ID</label>
+            <label for="asuId">ASURITE USER ID</label>
             <input id="asuId" type="text" pInputText formControlName="asuId" />
-            <p *ngIf="asuId?.touched && asuId?.invalid" class="p-error">ASU ID is required</p>
+            <p *ngIf="asuId?.touched && asuId?.invalid" class="p-error">ASURITE USER ID is required</p>
           </div>
 
           <div class="p-field">
@@ -55,5 +55,9 @@
         <button type="button" pButton icon="pi pi-check" (click)="displayDialog=false" label="OK"></button>
       </p-footer>
     </p-dialog>
+    <div *ngIf="showSpinner" class="spinner-overlay">
+      <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+                         animationDuration=".5s"></p-progressSpinner>
+    </div>
   </div>
 </div>

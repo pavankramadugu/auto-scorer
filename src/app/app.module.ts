@@ -22,6 +22,8 @@ import {DialogModule} from "primeng/dialog";
 import {TableModule} from "primeng/table";
 import {GoogleSheetsService} from "./services/google-sheets.service";
 import {HttpClientModule} from "@angular/common/http";
+import {FileUploadModule} from "primeng/fileupload";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import {HttpClientModule} from "@angular/common/http";
     InputTextModule,
     StyleClassModule,
     DialogModule,
-    TableModule
+    TableModule,
+    FileUploadModule,
+    ProgressSpinnerModule
   ],
   providers: [MessageService, GoogleSheetsService],
   bootstrap: [AppComponent]

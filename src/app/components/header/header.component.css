@@ -1,5 +1,5 @@
 .header {
-  height: 120px;
+  height: auto;
   width: 100%;
 }
 
@@ -14,13 +14,27 @@
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   height: 100%;
   width: 100%;
   padding: 0 20px;
 }
 
 .logo-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.title-and-tabs-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.tabs-container {
   display: flex;
   align-items: center;
 }

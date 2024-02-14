@@ -1,2 +1,68 @@
-<app-header></app-header>
-Will be released soon!
+<div class="main-container">
+  <div class="header-container">
+    <app-header></app-header>
+  </div>
+
+  <div class="page-container">
+    <p-toast></p-toast>
+    <p-card header="Project 2 Submission" [style]="{'width': '35rem', 'height': '20rem', 'box-sizing': 'border-box'}">
+      <form [formGroup]="lab2Form" (ngSubmit)="onSubmit()">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="asuriteUserId">ASURITE USER ID</label>
+            <input type="text" pInputText id="asuriteUserId" formControlName="asuriteUserId">
+            <small class="p-error"
+                   *ngIf="lab2Form.get('asuriteUserId')?.touched && lab2Form.get('asuriteUserId')?.hasError('required')">ASURITE
+              USER ID is required.</small>
+          </div>
+          <div class="p-field">
+            <div style="display: flex; justify-content: center;">
+              <p-fileUpload name="file" mode="basic" chooseLabel="Select" url="dummy" (onSelect)="onUpload($event)"
+                            accept=".go" [maxFileSize]="10000000"></p-fileUpload>
+            </div>
+            <div *ngIf="fileName" class="upload-success">File selected: {{ fileName }}</div>
+            <div *ngIf="!fileName" class="upload-success">Please select your Smart Contract Go File</div>
+          </div>
+
+          <div class="p-field">
+            <p-button type="submit" [disabled]="!lab2Form.valid || !lab2Form.get('fileUploaded')?.value"
+                      label="Submit"></p-button>
+          </div>
+        </div>
+      </form>
+    </p-card>
+    <p-dialog header="{{dialogHeader}}" [(visible)]="showDialog" [modal]="true" [style]="{width: '50vw'}">
+      <p-table [value]="testResults">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Test Name</th>
+            <th>Status</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-testResult>
+          <tr>
+            <td>{{ testResult.testName }}</td>
+            <td [ngStyle]="{'background-color': testResult.status === 'PASS' ? 'green' : 'red', 'color': 'white'}">
+              {{ testResult.status }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <div class="total-score" style="text-align: center; margin-top: 20px;">Total Score:
+        <strong>{{totalScore}}</strong></div>
+
+      <div class="show-logs-button" style="text-align: center; margin-top: 20px;">
+        <p-button (click)="showLogs = !showLogs">{{ showLogs ? 'Hide Full Logs' : 'Show Full Logs' }}</p-button>
+      </div>
+
+      <div *ngIf="showLogs" class="logs-panel" style="margin-top: 20px; max-height: 200px; overflow-y: auto;">
+        <pre>{{logs}}</pre>
+      </div>
+    </p-dialog>
+    <div *ngIf="showSpinner" class="spinner-overlay">
+      <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)"
+                         animationDuration=".5s"></p-progressSpinner>
+    </div>
+  </div>
+</div>

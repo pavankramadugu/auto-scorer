@@ -1,0 +1,59 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.header-container {
+  width: 100%;
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.p-field {
+  margin-bottom: 20px;
+}
+
+.upload-success {
+  margin-top: 10px;
+  text-align: center;
+  color: green;
+}
+
+/* Additional style to handle card resizing based on input focus */
+input:focus,
+input:active {
+  outline: none; /* Optional: Removes the default focus outline */
+}
+
+input[type="text"]:focus + .lab2-card,
+input[type="text"]:active + .lab2-card {
+  /* Dynamically adjust the size or add specific styles on input focus if needed */
+}
+
+.pass {
+  background-color: green;
+  color: white;
+}
+
+.fail {
+  background-color: red;
+  color: white;
+}
+
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
