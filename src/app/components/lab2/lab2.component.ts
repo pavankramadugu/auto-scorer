@@ -21,6 +21,7 @@ export class Lab2Component implements OnInit {
   fileName: string = '';
   file: File | null = null;
   totalScore: number = 0;
+  maxScore: number = 0;
   logs: string = '';
   showLogs: boolean = false;
   showSpinner: boolean = false;
@@ -84,6 +85,7 @@ export class Lab2Component implements OnInit {
     }));
     this.dialogHeader = data.message;
     this.totalScore = data.score;
+    this.maxScore = this.testResults.length * 10;
     this.logs = data.logs;
     this.showDialog = true;
     this.showSpinner = false;
